@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Registrazione Utente</h1>
-    <form id="registrationForm">
+    <form action="https://formspree.io/f/mqaklneo" method="POST" id="registrationForm">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required><br><br>
 
@@ -17,10 +17,30 @@
         <input type="submit" value="Invia">
     </form>
 
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"></script>
+    <script>
+        const form = document.getElementById('registrationForm');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-    <script src="app.js"></script>
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+
+            fetch('https://formspree.io/f/YOUR_FORM_ID', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nome, email }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Dati inviati con successo!');
+                form.reset();
+            })
+            .catch((error) => {
+                console.error('Errore nel salvataggio dei dati:', error);
+            });
+        });
+    </script>
 </body>
 </html>
